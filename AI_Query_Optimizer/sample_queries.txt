@@ -1,0 +1,25 @@
+-- Sample SQL queries for AI Query Optimizer
+
+SELECT * FROM employees;
+
+SELECT name, department, salary
+FROM employees
+WHERE salary > 80000
+ORDER BY salary DESC;
+
+SELECT department, COUNT(*) AS employee_count, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY department
+ORDER BY avg_salary DESC;
+
+SELECT e.name, e.department, p.name AS project_name, p.budget
+FROM employees e
+JOIN projects p ON e.department = p.department
+WHERE e.salary > 85000
+ORDER BY p.budget DESC;
+
+SELECT e.name, e.city, p.name AS project_name
+FROM employees e
+JOIN projects p ON e.department = p.department
+WHERE e.city = 'Seattle'
+ORDER BY e.name;

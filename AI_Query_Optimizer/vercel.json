@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "name": "ai-query-optimizer-frontend",
+  "builds": [
+    { "src": "static/**", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/static/$1" }
+  ]
+}

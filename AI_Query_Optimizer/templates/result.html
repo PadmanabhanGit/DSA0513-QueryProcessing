@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row gy-4">
+  <div class="col-xl-8">
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+          <div>
+            <h2 class="fw-bold">Analysis Results</h2>
+            <p class="text-muted mb-0">Inspect your SQL query, compare prediction to actual execution, and review optimization suggestions.</p>
+          </div>
+          <span class="badge bg-info text-dark">Query Insights</span>
+        </div>
+        {% if error_message %}
+        <div class="alert alert-warning">{{ error_message }}</div>
+        {% endif %}
+        <div class="mb-4">
+          <p class="mb-1 fw-semibold">Query</p>
+          <pre class="code-box">{{ query_text }}</pre>
+        </div>
+
+        <div class="row g-3 mb-4">
+          <div class="col-sm-6"><div class="card border-0 shadow-sm p-3"><p class="text-muted mb-1">Predicted Time</p><h4>{{ predicted_time|round(2) }} ms</h4></div></div>
+          <div class="col-sm-6"><div class="card border-0 shadow-sm p-3"><p class="text-muted mb-1">Actual Time</p><h4>{{ execution_time|default('N/A') }} ms</h4></div></div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="card border-0 shadow-sm p-3 h-100">
+              <h5 class="mb-3">Query Statistics</h5>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item px-0 py-2">Length: <strong>{{ stats.query_length }}</strong></li>
+                <li class="list-group-item px-0 py-2">Joins: <strong>{{ stats.joins }}</strong></li>
+                <li class="list-group-item px-0 py-2">Conditions (WHERE): <strong>{{ stats.conditions }}</strong></li>
+                <li class="list-group-item px-0 py-2">GROUP BY: <strong>{{ stats.group_by_count }}</strong></li>
+                <li class="list-group-item px-0 py-2">ORDER BY: <strong>{{ stats.order_by_count }}</strong></li>
+                <li class="list-group-item px-0 py-2">Tables Used: <strong>{{ stats.tables_used }}</strong></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card border-0 shadow-sm p-3 h-100">
+              <h5 class="mb-3">Recommendations</h5>
+              <ul class="list-group list-group-flush">
+                {% for r in recs %}
+                <li class="list-group-item px-0 py-2">{{ r }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <h5 class="mb-3">Query Output</h5>
+          {% if error_message %}
+          <div class="alert alert-info">Query execution was not performed due to safety restrictions.</div>
+          {% elif rows %}
+          <div class="table-responsive shadow-sm rounded">
+            <table class="table table-hover mb-0">
+              <thead class="table-light"><tr>{% for c in cols %}<th>{{ c }}</th>{% endfor %}</tr></thead>
+              <tbody>{% for row in rows %}<tr>{% for c in row %}<td>{{ c }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="alert alert-secondary">No rows returned or execution failed.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-4">
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <h5 class="fw-semibold">Quick Actions</h5>
+        <p class="text-muted">Navigate to dashboard and history or run another query.</p>
+        <div class="d-grid gap-2">
+          <a class="btn btn-primary" href="/dashboard">View Dashboard</a>
+          <a class="btn btn-outline-secondary" href="/history">View History</a>
+          <a class="btn btn-outline-info" href="/">Analyze another query</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
