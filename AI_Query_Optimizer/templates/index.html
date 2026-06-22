@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row gy-4 align-items-start">
+  <div class="col-lg-8">
+    <div class="card shadow-sm border-0 overflow-hidden">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <h2 class="fw-bold mb-1">SQL Query Analyzer</h2>
+            <p class="text-muted mb-0">Enter your SELECT query and get execution predictions, performance stats, and optimization suggestions.</p>
+          </div>
+          <span class="badge bg-primary align-self-start">Ready</span>
+        </div>
+        <form method="post" action="/analyze">
+          <div class="mb-3">
+            <textarea name="query" class="form-control form-control-lg bg-light" rows="9" placeholder="Enter SQL query here..."></textarea>
+          </div>
+          <button class="btn btn-primary btn-lg">Analyze Query</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card shadow-sm border-0 bg-gradient-primary text-white p-4">
+      <h5 class="fw-bold">Project Summary</h5>
+      <p>This tool helps you assess SQL performance using machine learning and recommend improvements for optimization.</p>
+      <ul class="list-unstyled mb-0">
+        <li class="mb-2">• Predict execution time</li>
+        <li class="mb-2">• Track query history</li>
+        <li class="mb-2">• Get optimization tips</li>
+        <li>• Built with Flask, MySQL, Pandas, Scikit-Learn</li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
