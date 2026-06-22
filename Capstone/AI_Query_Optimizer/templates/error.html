@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm border-0">
+  <div class="card-body">
+    <h2 class="fw-bold mb-3">{{ error_title }}</h2>
+    <div class="alert alert-danger">
+      <p class="mb-1">{{ error_message }}</p>
+      {% if details %}
+      <small class="text-muted">Details: {{ details }}</small>
+      {% endif %}
+    </div>
+    <p>If you are using MySQL, verify that the server is running and that your credentials in <code>.env</code> are correct.</p>
+    <div class="d-flex gap-2 mt-3">
+      <a class="btn btn-primary" href="/">Home</a>
+      <a class="btn btn-outline-secondary" href="/history">Try History Again</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm border-0">
+  <div class="card-body">
+    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between mb-4 gap-3">
+      <div>
+        <h3 class="fw-bold mb-1">Query History</h3>
+        <p class="text-muted mb-0">Browse previous queries, execution metrics, and status.</p>
+      </div>
+      <div class="d-flex gap-2 w-100 w-md-auto">
+        <form class="d-flex w-100" method="get">
+          <input class="form-control" name="q" placeholder="Search queries" value="{{ query_term }}">
+          <button class="btn btn-primary ms-2">Search</button>
+        </form>
+        <a class="btn btn-outline-secondary" href="/download_history">Download CSV</a>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Query</th>
+            <th>Actual Time</th>
+            <th>Predicted</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+          <tr>
+            <td class="text-truncate" style="max-width:400px">{{ r.query_text }}</td>
+            <td>{{ r.execution_time }}</td>
+            <td>{{ r.predicted_time }}</td>
+            <td>{{ r.status }}</td>
+            <td>{{ r.created_at }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mt-4">
+      <div class="text-muted">Page {{ page }} of {{ total_pages }}</div>
+      <nav>
+        <ul class="pagination mb-0">
+          <li class="page-item {% if page <= 1 %}disabled{% endif %}">
+            <a class="page-link" href="/history?q={{ query_term }}&page={{ page - 1 }}">Previous</a>
+          </li>
+          {% for p in range(1, total_pages + 1) %}
+          <li class="page-item {% if p == page %}active{% endif %}">
+            <a class="page-link" href="/history?q={{ query_term }}&page={{ p }}">{{ p }}</a>
+          </li>
+          {% endfor %}
+          <li class="page-item {% if page >= total_pages %}disabled{% endif %}">
+            <a class="page-link" href="/history?q={{ query_term }}&page={{ page + 1 }}">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+{% endblock %}

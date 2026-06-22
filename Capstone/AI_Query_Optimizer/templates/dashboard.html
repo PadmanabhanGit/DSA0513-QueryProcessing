@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-4 mb-4">
+  <div class="col-md-3">
+    <div class="card shadow-sm border-0 p-3 h-100">
+      <div class="text-secondary small mb-2">Total Queries</div>
+      <h2 id="totalQueries">0</h2>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card shadow-sm border-0 p-3 h-100">
+      <div class="text-secondary small mb-2">Slow Queries</div>
+      <h2 id="slowQueries">0</h2>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card shadow-sm border-0 p-3 h-100">
+      <div class="text-secondary small mb-2">Average Time</div>
+      <h2 id="avgTime">0 ms</h2>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card shadow-sm border-0 p-3 h-100">
+      <div class="text-secondary small mb-2">Optimization Count</div>
+      <h2 id="optimizations">0</h2>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="card shadow-sm border-0 p-3">
+      <div class="card-body">
+        <h5 class="fw-semibold mb-3">Execution Time Trend</h5>
+        <canvas id="timeTrend" height="240"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card shadow-sm border-0 p-3">
+      <div class="card-body">
+        <h5 class="fw-semibold mb-3">Status Distribution</h5>
+        <canvas id="statusDist" height="240"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
