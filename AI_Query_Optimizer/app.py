@@ -128,6 +128,38 @@ def dashboard():
     return render_template('dashboard.html')
 
 
+@main.route('/recommendations')
+def recommendations():
+    guidance = [
+        {
+            'title': 'Avoid SELECT *',
+            'description': 'Retrieve only the columns you need to reduce I/O and improve query parsing performance.',
+            'example': 'SELECT id, name, salary FROM employees WHERE department_id = 5'
+        },
+        {
+            'title': 'Filter with WHERE',
+            'description': 'Narrow result sets early to reduce full table scans and speed up execution.',
+            'example': 'SELECT order_id, total FROM orders WHERE order_date >= "2024-01-01"'
+        },
+        {
+            'title': 'Limit join complexity',
+            'description': 'Use fewer joins or rewrite queries with derived tables when joining many tables.',
+            'example': 'Use a subquery or indexed lookup rather than joining more than three large tables.'
+        },
+        {
+            'title': 'Index ORDER BY and GROUP BY columns',
+            'description': 'Proper indexing can avoid sorting costs and make aggregation operations much faster.',
+            'example': 'CREATE INDEX idx_sales_date ON sales (sale_date)'
+        },
+        {
+            'title': 'Break up large queries',
+            'description': 'Split complex logic into smaller queries or temporary tables to simplify execution and debugging.',
+            'example': 'Use CTEs or staging tables for complex calculations before final aggregation.'
+        }
+    ]
+    return render_template('recommendations.html', guidance=guidance)
+
+
 @main.route('/history')
 def history():
     q = request.args.get('q', '')
@@ -272,4 +304,7 @@ def export_pdf():
 app.register_blueprint(main)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    import os
+    port = int(os.environ.get('PORT', 5000))
+    debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() in ('1', 'true', 'yes')
+    app.run(debug=debug_mode, host='0.0.0.0', port=port)

@@ -43,7 +43,13 @@
               <h5 class="mb-3">Recommendations</h5>
               <ul class="list-group list-group-flush">
                 {% for r in recs %}
-                <li class="list-group-item px-0 py-2">{{ r }}</li>
+                <li class="list-group-item px-0 py-3">
+                  <div class="fw-semibold">{{ r.issue }}</div>
+                  <div class="text-muted small mb-2">{{ r.fix }}</div>
+                  {% if r.example %}
+                  <div class="bg-light rounded p-2 small"><strong>Example:</strong> {{ r.example }}</div>
+                  {% endif %}
+                </li>
                 {% endfor %}
               </ul>
             </div>
